@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!--【 TRACE < DEBUG < INFO < WARN < ERROR < fatal 】-->
+
+    <springProperty scope="context" name="log.level" source="cj.springboot.log.level"
+                    defaultValue="debug"/>
+    <springProperty scope="context" name="log.pattern" source="cj.springboot.log.pattern"
+                    defaultValue="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level - %msg%n" />
+    <springProperty scope="context" name="log.maxHistory" source="cj.springboot.log.maxHistory"
+                    defaultValue="15"/>
+    <springProperty scope="context" name="log.maxFileSize" source="cj.springboot.log.maxFileSize"
+                    defaultValue="50MB"/>
+    <springProperty scope="context" name="log.totalFileSize" source="cj.springboot.log.totalFileSize"
+                    defaultValue="500MB"/>
+
+    <!-- 以后需要仔细了解下   -->
+    <!--<springProperty scope="context" name="log.logger" source="cj.springboot.log.totalFileSize"
+                    defaultValue="cjLogger"/>-->
+    <springProperty scope="context" name="log.app" source="spring.application.name"
+                    defaultValue="cjcjAPP"/>
+
+     <!--测试环境-->
+     <springProfile name="dev">
+         <springProperty scope="context" name="log.filePath" source="cj.springboot.log.path"
+                         defaultValue="cjFilePath"/>
+     </springProfile>
+     <!--正式环境-->
+     <springProfile name="pro">
+         <springProperty scope="context" name="log.filePath" source="cj.springboot.log.path"
+                         defaultValue="cjFilePath"/>
+     </springProfile>
+
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <pattern>%green(%d{yyyy-MM-dd HH:mm:ss.SSS}) %yellow([%thread]) %highlight(%-5level) %cyan(%logger{50}) - %highlight(%msg) %n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--        <file>${log.filePath}/warn.log</file>-->
+        <file>${log.filePath}/${log.app}/cj_log.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.filePath}/${log.app}/archived/cjLog-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxHistory>${log.maxHistory}</maxHistory>
+            <maxFileSize>${log.maxFileSize}</maxFileSize>
+            <totalSizeCap>${log.totalFileSize}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- <filter class="ch.qos.logback.classic.filter.LevelFilter">
+             <level>WARN</level>
+             <onMatch>ACCEPT</onMatch>
+             <onMismatch>DENY</onMismatch>
+         </filter>-->
+    </appender>
+
+    <appender name="warnAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.filePath}/${log.app}/warn.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.filePath}/${log.app}/archived/warn/warn-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxHistory>${log.maxHistory}</maxHistory>
+            <maxFileSize>${log.maxFileSize}</maxFileSize>
+            <totalSizeCap>${log.totalFileSize}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.filePath}/${log.app}/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.filePath}/${log.app}/archived/error/error-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxHistory>${log.maxHistory}</maxHistory>
+            <maxFileSize>${log.maxFileSize}</maxFileSize>
+            <totalSizeCap>${log.totalFileSize}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+
+    <!--【 addtivity: 是否向上级logger传递打印信息。默认是true 】-->
+    <!--
+    此配置可设置只记录自己代码的错误
+    我自己的代码如果出现日志则单独记录，只记录warn和error级别日志
+    level="warn"
+    问题：如何设置通过spring配置文件设置需要记录那些日志
+    -->
+    <!--<logger name="cj.springboot.template"  additivity="true">
+        <appender-ref ref="warnAppender"/>
+        <appender-ref ref="errorAppender"/>
+    </logger>-->
+    <!--【 默认是DEBUG 】，所有大于等于DEBUG级别的日志会输出到控制台 -->
+    <!--
+      所有的info以上日志都会输出到控制台并写到日志文件中
+    -->
+    <root level="info">
+        <appender-ref ref="consoleAppender"/>
+        <appender-ref ref="fileAppender"/>
+        <appender-ref ref="warnAppender"/>
+        <appender-ref ref="errorAppender"/>
+    </root>
+
+</configuration>
+        <!--
+        日志使用：
+        private final static Logger logger = LoggerFactory.getLogger(App.class);
+        logger.info("logback 成功了");
+        -->
