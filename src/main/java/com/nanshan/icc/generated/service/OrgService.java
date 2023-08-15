@@ -1,6 +1,6 @@
 package com.nanshan.icc.generated.service;
 
-import com.nanshan.icc.generated.entity.ChannelEntity;
+import com.nanshan.icc.generated.entity.OrgEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author cj
- * @since 2023-08-15
+ * @since 2023-08-10
  */
-public interface ChannelService extends IService<ChannelEntity> {
+public interface OrgService extends IService<OrgEntity> {
 
 }

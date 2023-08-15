@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author cj
- * @since 2023-08-15
+ * @since 2023-08-10
  */
 @RestController
-@RequestMapping("/generated/channel-entity")
-public class ChannelController {
+@RequestMapping("/generated/org-entity")
+public class OrgController {
 
 }

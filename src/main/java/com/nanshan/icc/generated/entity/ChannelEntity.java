@@ -11,7 +11,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author cj
- * @since 2023-07-09
+ * @since 2023-08-15
  */
 @TableName("channel")
 public class ChannelEntity extends CJBaseColmns {
@@ -29,6 +29,24 @@ public class ChannelEntity extends CJBaseColmns {
 
     @TableField("device_id")
     private String deviceId;
+
+    /**
+     * 状态 0:关闭 1:开启 
+     */
+    @TableField("stat")
+    private Integer stat;
+
+    /**
+     * 是否已经接入 ：1-已接入， 0-未接入 
+     */
+    @TableField("access")
+    private Integer access;
+
+    /**
+     * 0	离线;1	在线
+     */
+    @TableField("is_online")
+    private Integer isOnline;
 
     public String getId() {
         return id;
@@ -58,6 +76,27 @@ public class ChannelEntity extends CJBaseColmns {
     public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
     }
+    public Integer getStat() {
+        return stat;
+    }
+
+    public void setStat(Integer stat) {
+        this.stat = stat;
+    }
+    public Integer getAccess() {
+        return access;
+    }
+
+    public void setAccess(Integer access) {
+        this.access = access;
+    }
+    public Integer getIsOnline() {
+        return isOnline;
+    }
+
+    public void setIsOnline(Integer isOnline) {
+        this.isOnline = isOnline;
+    }
 
     @Override
     public String toString() {
@@ -66,6 +105,9 @@ public class ChannelEntity extends CJBaseColmns {
             ", name=" + name +
             ", code=" + code +
             ", deviceId=" + deviceId +
+            ", stat=" + stat +
+            ", access=" + access +
+            ", isOnline=" + isOnline +
         "}";
     }
 }

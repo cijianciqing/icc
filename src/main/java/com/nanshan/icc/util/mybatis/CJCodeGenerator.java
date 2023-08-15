@@ -31,7 +31,7 @@ public class CJCodeGenerator {
     private static final String MODULE_NAME = "generated";
 
     // 表名，多个表使用英文逗号分割
-    private static final String[] TBL_NAMES = {"alarm" };
+    private static final String[] TBL_NAMES = {"channel" };
 //            { "cj_auth_user","cj_auth_user_and_role","cj_auth_role","cj_auth_role_and_resource","cj_auth_resource" };
 
     // 表名的前缀，从表生成代码时会去掉前缀

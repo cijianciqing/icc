@@ -9,7 +9,7 @@ import com.nanshan.icc.config.mybatis.CJMapper;
  * </p>
  *
  * @author cj
- * @since 2023-07-09
+ * @since 2023-08-10
  */
 public interface DeviceDao extends CJMapper<DeviceEntity> {
 

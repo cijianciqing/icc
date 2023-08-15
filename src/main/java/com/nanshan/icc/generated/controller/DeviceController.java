@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author cj
- * @since 2023-07-09
+ * @since 2023-08-10
  */
 @RestController
 @RequestMapping("/generated/device-entity")

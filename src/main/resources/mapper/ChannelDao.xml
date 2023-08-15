@@ -4,10 +4,15 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.nanshan.icc.generated.entity.ChannelEntity">
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
         <result column="id" property="id" />
         <result column="name" property="name" />
         <result column="code" property="code" />
         <result column="device_id" property="deviceId" />
+        <result column="stat" property="stat" />
+        <result column="access" property="access" />
+        <result column="is_online" property="isOnline" />
     </resultMap>
 
 </mapper>

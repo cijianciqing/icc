@@ -11,6 +11,7 @@ import com.dahuatech.icc.oauth.model.v202010.GeneralResponse;
 import com.nanshan.icc.alarm.CJAlarmPageResponse;
 import com.nanshan.icc.alarm.CJAlarmService;
 import com.nanshan.icc.device.CJDeviceChannelService;
+import com.nanshan.icc.org.CJOrgService;
 import com.nanshan.icc.service.CJICCService;
 import com.nanshan.icc.viedo.VideoService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @RestController
@@ -36,20 +39,41 @@ class IccApplicationTests {
     @Autowired
     CJAlarmService cjAlarmService;
 
+    @Autowired
+    CJOrgService cjOrgService;
+    /*
+    * 重新获取设备及通道信息
+    * */
     @Test
-    public void cjTest() throws ClientException {
-        cjAlarmService.getAlarms("2023-07-10 00:00:00","2023-07-17 00:00:00");
-//        cjiccService.getAllDeviceChannel();
-//        BrmDeviceChannelPageRequest brmDeviceChannelPageRequest = new BrmDeviceChannelPageRequest();
-//        brmDeviceChannelPageRequest.setPageNum(1);
-//        brmDeviceChannelPageRequest.setPageSize(100);
-//        brmDeviceChannelPageRequest.setDeviceCodeList(Collections.singletonList("1000011"));
-//        BrmDeviceChannelPageResponse deviceChannelPageResponse = null;
-//
-//            deviceChannelPageResponse = cjDeviceChannelService.getDeviceChannel(brmDeviceChannelPageRequest);
-//
-//            Integer totalDeviceChannelPage = deviceChannelPageResponse.getData().getTotalPage();
+    public void cjTest1() throws ClientException {
+        cjiccService.getAllDeviceChannel();
+    }
 
+    /*
+    * 获取最近7天的自定义告警信息
+    * */
+    @Test
+    public void cjTest2() throws ClientException {
+        // 获取当前时间
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        String now = currentDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        System.out.println("当前的精确时间是：" + now);
+        // 获取7天前的精确时间
+        LocalDateTime sevenDaysAgo = currentDateTime.minusDays(7);
+        String dayBefore = sevenDaysAgo.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        // 输出7天前的精确时间
+        System.out.println("7天前的精确时间是：" + dayBefore);
+
+        cjAlarmService.getAlarms(dayBefore,now);
+    }
+
+
+    /*
+     * 获取所有组织信息
+     * */
+    @Test
+    public void cjTest3() throws ClientException {
+        cjOrgService.getOrgs();
     }
 
 

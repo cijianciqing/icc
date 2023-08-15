@@ -55,9 +55,30 @@ public class CJICCService {
 
         //1.3 保存到数据库
         allDevices.forEach(a -> {
+            if (a.getDeviceName().equals("控股办公楼172.18.161.203")) {
+                System.out.println("##############################");
+                System.out.println(a);
+                System.out.println(a.getOwnerCode());
+                System.out.println("##############################");
+            }
             DeviceEntity deviceEntity = new DeviceEntity();
             deviceEntity.setName(a.getDeviceName());
             deviceEntity.setCode(a.getDeviceCode());
+            deviceEntity.setIsOnline(a.getIsOnline());
+            deviceEntity.setDeviceIp(a.getDeviceIp());
+            deviceEntity.setOwnerCode(a.getOwnerCode());
+            if (a.getDeviceManufacturer().equals("1")) {
+                deviceEntity.setDeviceManufacturer("大华");
+            } else if (a.getDeviceManufacturer().equals("2")) {
+                deviceEntity.setDeviceManufacturer("海康");
+            } else {
+                deviceEntity.setDeviceManufacturer(a.getDeviceManufacturer());
+            }
+            if (a.getDeviceName().equals("控股办公楼172.18.161.203")) {
+                System.out.println("##############################");
+                System.out.println(deviceEntity);
+                System.out.println("##############################");
+            }
             deviceEntities.add(deviceEntity);
         });
 
@@ -65,8 +86,6 @@ public class CJICCService {
         deviceService.saveBatch(deviceEntities);
         //2.1 获取所有的channel
         List<DeviceEntity> list = deviceService.list();
-
-
 
 
         //2.2 获取对应的device channel
@@ -103,6 +122,9 @@ public class CJICCService {
                         ChannelEntity channelEntity = new ChannelEntity();
                         channelEntity.setName(b.getChannelName());
                         channelEntity.setCode(b.getChannelCode());
+                        channelEntity.setStat(b.getStat());
+                        channelEntity.setAccess(b.getAccess());
+                        channelEntity.setIsOnline(b.getIsOnline());
                         channelEntity.setDeviceId(a.getId());
                         channelEntities.add(channelEntity);
                     });
@@ -124,7 +146,7 @@ public class CJICCService {
 //        System.out.println(allDeviceChannels.size());
     }
 
-    public void getAllAlarm(){
+    public void getAllAlarm() {
 
     }
 }

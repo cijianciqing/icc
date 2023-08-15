@@ -4,9 +4,15 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.nanshan.icc.generated.entity.DeviceEntity">
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
         <result column="id" property="id" />
         <result column="name" property="name" />
         <result column="code" property="code" />
+        <result column="isOnline" property="isOnline" />
+        <result column="owner_code" property="ownerCode" />
+        <result column="deviceManufacturer" property="deviceManufacturer" />
+        <result column="deviceIp" property="deviceIp" />
     </resultMap>
 
 </mapper>
